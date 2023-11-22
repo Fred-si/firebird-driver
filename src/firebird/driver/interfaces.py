@@ -1176,9 +1176,10 @@ with attachment is to close it."""
         self._check()
     def detach(self) -> None:
         "Replaces `isc_detach_database()`. On success releases interface."
-        self.vtable.deprecatedDetach(self, self.status)
-        self._check()
-        self._refcnt -= 1
+        if self._refcnt:
+            self.vtable.deprecatedDetach(self, self.status)
+            self._check()
+            self._refcnt -= 1
     def drop_database(self) -> None:
         "Replaces `isc_drop_database()`. On success releases interface."
         self.vtable.deprecatedDropDatabase(self, self.status)
