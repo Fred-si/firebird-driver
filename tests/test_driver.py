@@ -1054,6 +1054,10 @@ class TestCursor(DriverTestBase):
                 rcount = 1
             self.assertEqual(cur.affected_rows, rcount)
             self.assertEqual(cur.rowcount, rcount)
+    def test_affected_rows_with_alter_trigger(self):
+        with self.con.cursor() as cur:
+            cur.execute('alter trigger SET_CUST_NO active')
+            self.assertEqual(cur.affected_rows, -1)
     def test_name(self):
         def assign_name():
             cur.set_cursor_name('testx')
